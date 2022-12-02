@@ -1,0 +1,258 @@
+<html>
+
+<head>
+    <title>Messwerte des ESP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+    <link href='https://fonts.googleapis.com/css?family=Convergence' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Convergence', 'Trebuchet MS';
+            height: 100%;
+            margin: 0px;
+            animation: background-pan 15s linear infinite;
+            background: linear-gradient(to bottom right, rgb(83, 0, 83) 0%, rgb(161, 105, 0) 25%, rgb(83, 0, 83) 50%, rgb(161, 105, 0) 75%, rgb(83, 0, 83) 100%);
+            background-size: 200%;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        @keyframes background-pan {
+            from {
+                background-position: 0%;
+            }
+
+            to {
+                background-position: -200%;
+            }
+        }
+
+        #topRow {
+            height: 15vh;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            border-radius: 0rem 0rem 1.5rem 1.5rem;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            text-align: left;
+            background: linear-gradient(to bottom right, #232634 0%, #23263479 100%);
+        }
+
+        #topRow a {
+            color: white;
+            font-size: 3rem;
+            padding: 2vh;
+            transition: transform 0.4s ease-out;
+        }
+
+        #topRow a:hover {
+            transform: matrix(1.25, 0, 0, 1.25, 70, 0);
+            text-shadow: 0 0 0.6rem silver;
+        }
+
+        #menuBackground {
+            height: 100vh;
+            width: 101vw;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 5%, #1D2029 5%);
+            background-position: 0% 0%;
+            background-size: 7.1vmin 7.1vmin;
+            position: absolute;
+            left: -0.3%;
+            top: 0%;
+            z-index: 1;
+        }
+
+        .tile {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            color: white;
+            border-radius: 0.75rem;
+            cursor: none;
+            height: 15vh;
+            width: 30vh;
+            padding: 2vh;
+            margin: 4vh 5vw;
+            /* vertical horizontal */
+        }
+
+        .tile:hover {
+            transition: 0.5s ease-in;
+        }
+
+        .tile a {
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        #tileTable {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 80vh;
+        }
+
+        .insetDiv {
+            position: absolute;
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            inset-block: 0.5rem 0rem;
+            background-color: #252B43;
+            color: white;
+            border-radius: 0rem 0rem 0.65rem 0.65rem;
+        }
+
+        p {
+            font-size: 2.5rem;
+        }
+
+        a:visited {
+            color: white;
+        }
+
+        a:link {
+            color: white;
+        }
+
+        .linkA:hover {
+            color: rgb(151, 151, 151);
+        }
+
+        #t {
+            background: linear-gradient(to bottom right, darkred 0%, red 120%);
+        }
+
+        #t:hover {
+            box-shadow: 0 1rem 1.5rem 2.5rem #111422, 0 -0.75rem 1.5rem 0.75rem rgba(220, 20, 60, 0.75);
+            /* offset-x offset-y blur-radius spread-radius */
+        }
+
+        #h {
+            background: linear-gradient(to bottom right, dodgerblue 0%, aqua 120%);
+        }
+
+        #h:hover {
+            box-shadow: 0 1rem 1.5rem 2.5rem #111422, 0 -1rem 1.5rem 0.5rem rgba(0, 191, 255, 0.75);
+        }
+
+        #db {
+            background: linear-gradient(to bottom right, green 0%, lime 120%);
+        }
+
+        #db:hover {
+            box-shadow: 0 1rem 1.5rem 2.5rem #111422, 0 -1rem 1.5rem 0.75rem rgba(34, 139, 34, 0.75);
+        }
+
+        #lux {
+            background: linear-gradient(to bottom right, rgb(187, 142, 28) 0%, yellow 120%);
+        }
+
+        #lux:hover {
+            box-shadow: 0 1rem 1.5rem 2.5rem #111422, 0 -0.75rem 1.5rem 0.75rem rgba(255, 215, 0, 0.75);
+        }
+
+        #refresh {
+            cursor: pointer;
+            width: 20vh;
+            height: 10vh;
+            background: linear-gradient(to bottom right, plum 0%, teal 60%);
+            margin-top: 5vh;
+            margin-bottom: -0.5vh;
+        }
+
+        #refresh:hover {
+            box-shadow: 0 1rem 1.5rem 2.5rem #111422, 1.25rem -1rem 1.5rem 0.05rem teal, -0.75rem -1rem 1.5rem 0.25rem plum;
+        }
+
+        #downloadCSV {
+            cursor: pointer;
+            width: 20vh;
+            height: 10vh;
+            background: linear-gradient(to bottom right, teal 0%, plum 50%);
+            margin-top: 5vh;
+            margin-bottom: -0.5vh;
+        }
+
+        #downloadCSV:hover {
+            box-shadow: 0 1rem 1.5rem 2.5rem #111422, 1rem -1rem 1.5rem 0.05rem plum, -0.75rem -1rem 1.5rem 0.25rem teal;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="menuBackground"></div>
+    <div id="topRow">
+        <a>Schlafzimmeranalysator</a>
+    </div>
+    <div id="tileTable">
+        <table>
+            <tr>
+                <td>
+                    <div class="tile" id="t">
+                        <div class="insetDiv">
+                            <a>Temperatur</a>
+                            <p style="text-shadow: 0rem 0rem 1.5rem rgb(141, 51, 51);">20 °C</p>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="tile" id="h">
+                        <div class="insetDiv">
+                            <a>Luftfeuchtigkeit</a>
+                            <p style="text-shadow: 0rem 0rem 1.5rem rgb(51, 134, 141);">75 %</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="tile" id="db">
+                        <div class="insetDiv">
+                            <a>Schalldruck</a>
+                            <p style="text-shadow: 0rem 0rem 1.5rem rgb(53, 141, 51);">28 dBA</p>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="tile" id="lux">
+                        <div class="insetDiv">
+                            <a>Lichtintensitaet</a>
+                            <p style="text-shadow: 0rem 0rem 1.5rem rgb(141, 117, 51);">200 Lux</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <center>
+                        <div class="tile" id="refresh">
+                            <div class="insetDiv" style="display: flex; align-items: center; padding-top: 0rem;">
+                                <a class="linkA" href="/?refr">Refresh</a>
+                            </div>
+                        </div>
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        <div class="tile" id="downloadCSV"
+                            style="cursor: pointer; width: 20vh; height: 10vh; background: linear-gradient(to bottom right, teal 0%, plum 50%); margin-top: 5vh; margin-bottom: -0.5vh;">
+                            <div class="insetDiv" style="display: flex; align-items: center; padding-top: 0rem;">
+                                <a class="linkA">Download CSV</a>
+                            </div>
+                        </div>
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
