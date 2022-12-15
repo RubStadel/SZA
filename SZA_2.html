@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Messwerte des ESP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: "Gill Sans MT";
+        }
+
+        .tab {
+            width: 25vw;
+            height: 100vh;
+            position: absolute;
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.25rem;
+            color: white;
+        }
+
+        .circle {
+            border-radius: 50%;
+            position: absolute;
+            height: 13rem;
+            width: 13rem;
+            background-color: transparent;
+            border: 2rem solid;
+            border-color: white black transparent black;
+        }
+
+        .needle {
+            position: absolute;
+            width: 0.65vw;
+            height: 24.5vh;
+            border-radius: 100%;
+            transform: rotate(-135deg);
+            transition: transform 0.75s ease-out;
+        }
+
+        #pill {
+            width: 10vw;
+            height: 0vh;
+            border: 0.2rem solid white;
+            border-radius: 1rem;
+            position: absolute;
+            left: 7.5vw;
+            bottom: 5vh;
+            transition: 0.5s ease-out;
+        }
+
+        button {
+            background: transparent;
+            border: none;
+            color: silver;
+            font-size: 1rem;
+            font-family: "Gill Sans MT";
+        }
+
+        .reload {
+            position: absolute;
+            top: 15vh;
+            transition: color 0.35s;
+        }
+
+        .info {
+            position: absolute;
+            bottom: 15vh;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 0.1rem solid silver;
+            border-radius: 50%;
+            padding: 0.075rem 0.75rem;
+            color: silver;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body onload="setActiveTab(0);">
+    <div class="tab" id="temp" onclick="setActiveTab(0);">
+    </div>
+    <div class="tab" id="humid" onclick="setActiveTab(1);">
+    </div>
+    <div class="tab" id="lumin" onclick="setActiveTab(2);">
+    </div>
+    <div class="tab" id="sound" onclick="setActiveTab(3);">
+    </div>
+    <div id="pill"></div>
+</body>
+
+<script type="text/javascript">
+
+    let tmpValues = ["20", "55", "50", "34"];
+    let units = [' °C ', ' %  ', ' Lux', ' dBA'];
+    let backgroundGradients = [
+        'linear-gradient(to top, hsl(0, 100%, 25%) 0%, hsl(0, 100%, 20%) 20%, hsl(0, 100%, 5%) 90%)',
+        'linear-gradient(to top, hsl(240, 100%, 25%) 0%, hsl(240, 100%, 20%) 20%, hsl(240, 100%, 5%) 90%)',
+        'linear-gradient(to top, hsl(43, 74%, 40%) 0%, hsl(43, 74%, 35%) 20%, hsl(43, 74%, 20%) 90%)',
+        'linear-gradient(to top, hsl(120, 100%, 25%) 0%, hsl(120, 100%, 20%) 20%, hsl(120, 100%, 5%) 90%)'
+    ];
+    let backgrounds = ['hsl(0, 100%, 5%)', 'hsl(240, 100%, 5%)', 'hsl(43, 74%, 20%', 'hsl(120, 100%, 5%)'];
+
+    let recommendationsMin = ['19', '40', '0', '0'];
+    let recommendationsMax = ['23', '60', '100', '30'];
+
+    let tabs = document.getElementsByClassName("tab");
+
+    let reloadAllowed = false;
+    let reButtons = document.getElementsByClassName('reload');
+
+    let reloadInterval = setInterval(allowReload, 2000);
+
+    for (i = 0; i < tabs.length; i++) {
+        tabs[i].innerHTML =
+            `<button class="reload" onclick='reloadPage();''><i class="material-icons" style="font-size: 2rem;">refresh</i></button>
+            <div class="circle"></div>
+            <div class="needle"></div>
+            <p>${tmpValues[i]}${units[i]}</p>
+            <a class='info' href='https://www.bmuv.de/themen/gesundheit-chemikalien/gesundheit/innenraumluft/richtiges-lueften-und-heizen' 
+            target='_blank'	rel='noopener noreferrer'>i</a>`;
+        // replace '${tmpValues[i]}' with actual measurements !!!
+
+        tabs[i].style.left = (i * 25).toString().concat("vw");
+
+        tabs[i].style.background = backgroundGradients[i];
+
+    }
+
+    function setActiveTab(tabNr) {
+        for (i = 0; i < tabs.length; i++) {
+            let tabElements = tabs[i].children;
+
+            if (i == tabNr) {
+                tabs[i].style.background = backgroundGradients[i];
+                tabElements[0].style.display = 'initial';           // refresh button
+                tabElements[1].style.display = 'initial';           // circle
+                tabElements[2].style.background = 'linear-gradient(to top, transparent 70%, goldenrod 85%)';          // needle
+                tabElements[3].style.color = 'white';               // measurement value
+                tabElements[3].style.textShadow = '0 0 0.5rem black';
+                tabElements[4].style.display = 'initial';           // info button
+
+            } else {
+                tabs[i].style.background = backgrounds[tabNr];
+                // let l = backgrounds[i].slice(-4, -2);
+                // tabs[i].style.backgroundColor = backgrounds[i].slice(0, -4).concat((l - 15), '%');
+                tabElements[0].style.display = 'none';
+                tabElements[1].style.display = 'none';
+                tabElements[2].style.background = 'transparent';
+                tabElements[2].style.transform = 'rotate(-135deg)';
+                tabElements[3].style.color = 'silver';
+                tabElements[3].style.textShadow = 'none';
+                tabElements[4].style.display = 'none';
+            }
+        }
+        let tmpPos = (tabNr * 25 + 7.5).toString();
+        document.getElementById('pill').style.left = tmpPos.concat('vw');
+
+        orientateNeedle(tabNr);
+    }
+
+    function orientateNeedle(tabNr) {
+        let thisTabElements = tabs[tabNr].children;
+        let needle = thisTabElements[2];
+        let meas = thisTabElements[3].textContent.slice(0, -4);
+
+        if (tabNr >= 2) {
+            thisTabElements[1].style.borderColor = 'white black transparent white';
+            if (meas <= (recommendationsMax[tabNr] * 0.75)) {
+                needle.style.transform = 'rotate('.concat((-135 + (meas / (recommendationsMax[tabNr] * 0.75)) * 135), 'deg)');
+            } else if (meas <= recommendationsMax[tabNr] * 1.5) {
+                let tmpDenom = (recommendationsMax[tabNr] * 0.75);
+                needle.style.transform = 'rotate('.concat((((meas - tmpDenom) / tmpDenom) * 135), 'deg)');
+            } else {
+                needle.style.transform = 'rotate(135deg)';
+            }
+        } else {
+            let diff = (recommendationsMax[tabNr] - recommendationsMin[tabNr]);
+            let relativeMax = recommendationsMax[tabNr] - (diff * 0.5);
+            let relativeMin = (recommendationsMin[tabNr] - diff);
+            if (meas <= recommendationsMin[tabNr]) {
+                needle.style.transform = 'rotate(-135deg)';
+            } else if (meas <= relativeMax) {
+                needle.style.transform = 'rotate('.concat((-90 * ((relativeMax - meas) / relativeMin)), 'deg');
+            } else if (meas <= (recommendationsMax[tabNr] + diff)) {
+                needle.style.transform = 'rotate('.concat((90 * ((meas - relativeMax) / relativeMin)), 'deg');
+                // console.log('rotate('.concat((90 * ((meas - relativeMax) / relativeMin)), 'deg'));
+            } else {
+                needle.style.transform = 'rotate(135deg)';
+            }
+        }
+    }
+
+    reButtons[0].style.color = 'transparent';
+
+    function reloadPage() {
+        if (!reloadAllowed) {
+            return;
+        }
+        location.reload();
+    }
+
+    function allowReload() {
+        reloadAllowed = true;
+        reButtons[0].style.color = 'silver';
+    }
+
+</script>
