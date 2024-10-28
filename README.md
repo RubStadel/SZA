@@ -10,7 +10,7 @@
 These tiles are colorcoded and have a shadow effect, seen when hovering over them.
 - Also has an animated background gradient that is partly hidden behind a static plain with circular cutouts.
 
-<a href="https://codepen.io/Rubinhio/pen/PoaLEWG" target="_blank" title="CodePen">Preview</a>
+[Preview](https://codepen.io/Rubinhio/pen/PoaLEWG "CodePen")
 
 ---
 
@@ -21,7 +21,7 @@ These tiles are colorcoded and have a shadow effect, seen when hovering over the
 - shows a recommended range for measurements
 - doesn't allow user to reload the page (via reload button) for the first two seconds
 
-<a href="https://codepen.io/Rubinhio/pen/ZEgXaYg" target="_blank" title="CodePen">Preview</a>
+[Preview](https://codepen.io/Rubinhio/pen/ZEgXaYq "CodePen"){:target="_blank"}
 
 *ToDo:*
 
