@@ -42,6 +42,8 @@ These tiles are colorcoded and have a shadow effect, seen when hovering over the
 
 [Preview](https://codepen.io/Rubinhio/pen/poMaqpQ "CodePen")
 
+---
+
 ### Disclaimer
 
 **Currently only optimized for desktop and only tested in Firefox.**
