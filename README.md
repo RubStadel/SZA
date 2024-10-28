@@ -21,7 +21,7 @@ These tiles are colorcoded and have a shadow effect, seen when hovering over the
 - shows a recommended range for measurements
 - doesn't allow user to reload the page (via reload button) for the first two seconds
 
-[Preview](https://codepen.io/Rubinhio/pen/ZEgXaYq "CodePen"){:target="_blank"}
+[Preview](https://codepen.io/Rubinhio/pen/ZEgXaYq "CodePen")
 
 *ToDo:*
 
@@ -32,6 +32,15 @@ These tiles are colorcoded and have a shadow effect, seen when hovering over the
 - add labels to the range
 
 ---
+
+## SZA_3
+
+- minimalistic *neumorphic* design
+- icons represent measurement categories
+- reveals additional information when selecting a category
+- simple animations when selecting categories
+
+[Preview](https://codepen.io/Rubinhio/pen/poMaqpQ "CodePen")
 
 ### Disclaimer
 
