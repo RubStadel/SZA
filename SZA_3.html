@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Messwerte des ESP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+    <style>
+        html,
+        body {
+            background: #e0e0e0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .area {
+            width: 25vw;
+            height: 40vh;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50px;
+            background: #e0e0e0;
+            box-shadow: 7px 7px 14px #acacac,
+                -7px -7px 14px #ffffff;
+            font-size: 5rem;
+        }
+
+        .area>span {
+            position: absolute;
+            top: 37.5%;
+            left: 42.5%;
+            opacity: 0.4;
+            transition: font-size 0.5s ease-out, top 0.75s ease, left 0.75s ease;
+        }
+
+        .area>p {
+            opacity: 0;
+            font-size: 2.5vh;
+            transition: opacity 0.25s ease;
+            transition-delay: 0.15s;
+            padding: 5rem 2rem;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .area>p>span {
+            font-size: 5vh;
+        }
+
+        #temp {
+            top: 5vh;
+            left: 20vw;
+            color: darkred;
+        }
+
+        #humid {
+            top: 5vh;
+            right: 20vw;
+            color: navy;
+        }
+
+        #lumin {
+            bottom: 5vh;
+            left: 20vw;
+            color: gold;
+        }
+
+        #sound {
+            bottom: 5vh;
+            right: 20vw;
+            color: forestgreen;
+        }
+
+        a {
+            color: inherit;
+            /* text-decoration: none; */
+        }
+    </style>
+</head>
+
+<body>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <div class="area" id="temp" onclick="makeSelectedArea('temp');">
+        <span><ion-icon name="thermometer"></ion-icon></span>
+        <p>
+            <span>25 °C</span>
+            <br><br>
+            Hier könnte noch mehr Text stehen.
+            Zum Beispiel ein toller <a class="info"
+                href="https://www.bmuv.de/themen/gesundheit-chemikalien/gesundheit/innenraumluft/richtiges-lueften-und-heizen"
+                target="_blank" rel="noopener noreferrer">Link</a>.
+        </p>
+    </div>
+    <div class="area" id="humid" onclick="makeSelectedArea('humid');">
+        <span><ion-icon name="water"></ion-icon></span>
+        <p>
+            <span>75 %</span>
+        </p>
+    </div>
+    <div class="area" id="lumin" onclick="makeSelectedArea('lumin');">
+        <span><ion-icon name="sunny"></ion-icon></span>
+        <p>
+            <span>50 Lux</span>
+        </p>
+    </div>
+    <div class="area" id="sound" onclick="makeSelectedArea('sound');">
+        <span><ion-icon name="volume-medium"></ion-icon></span>
+        <p>
+            <span>24 dBA</span>
+        </p>
+    </div>
+</body>
+
+<script type="text/javascript">
+    let SelectedArea = 'temp';
+
+    function makeSelectedArea(id) {
+        // alte SelectedArea zurücksetzen
+        document.getElementById(SelectedArea).style.boxShadow = "7px 7px 14px #acacac, -7px -7px 14px #ffffff";
+        document.getElementById(SelectedArea).children[0].style.opacity = "0.4";
+        document.getElementById(SelectedArea).children[0].style.fontSize = "5rem";
+        document.getElementById(SelectedArea).children[0].style.top = "37.5%";
+        document.getElementById(SelectedArea).children[0].style.left = "42.5%";
+        document.getElementById(SelectedArea).children[1].style.opacity = "0";
+
+        // neue SelectedArea hervorheben
+        document.getElementById(id).style.boxShadow = "inset 7px 7px 14px #acacac, inset -7px -7px 14px #ffffff";
+        document.getElementById(id).children[0].style.opacity = "0.9";
+        document.getElementById(id).children[0].style.fontSize = "2.5rem";
+        document.getElementById(id).children[0].style.top = "10%";
+        document.getElementById(id).children[0].style.left = "7.5%";
+        document.getElementById(id).children[1].style.opacity = "1";
+
+        // SelectedArea überschreiben
+        SelectedArea = id;
+    }
+
+    //makeSelectedArea('temp');
+</script>
+
+</html>
